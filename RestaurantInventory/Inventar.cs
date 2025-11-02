@@ -62,7 +62,7 @@ namespace RestaurantInventory
             return listaStavki.Where(s => s.JeKriticna()).ToList();
         }
 
-        // (opcionalno) metoda za prikaz svih stavki
+        // Metoda za prikaz svih stavki
         public void PrikaziSve()
         {
             Console.WriteLine("\n--- Trenutni inventar ---");

@@ -47,7 +47,7 @@ namespace RestaurantInventory
             }
         }
 
-        public void AzurirajStavku(string naziv, int novaKolicina)
+        public void AzurirajStavku(string naziv, double novaKolicina)
         {
             try
             {

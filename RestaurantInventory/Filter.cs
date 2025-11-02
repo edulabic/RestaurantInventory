@@ -11,13 +11,13 @@ namespace RestaurantInventory
         public string Naziv { get; set; }
         public Kategorija Kategorija { get; set; }
         public string Dobavljac { get; set; }
-        public int? MinKolicina { get; set; }
-        public int? MaxKolicina { get; set; }
+        public double? MinKolicina { get; set; }
+        public double? MaxKolicina { get; set; }
         public double? MinCijena { get; set; }
         public double? MaxCijena { get; set; }
 
         public Filter(string naziv = null, Kategorija kategorija = Kategorija.None, string dobavljac = null,
-                      int? minKolicina = null, int? maxKolicina = null,
+                      double? minKolicina = null, double? maxKolicina = null,
                       double? minCijena = null, double? maxCijena = null)
         {
             Naziv = naziv;
@@ -35,11 +35,10 @@ namespace RestaurantInventory
             var rezultat = lista.AsQueryable();
 
             if (!string.IsNullOrEmpty(Naziv))
-                rezultat = rezultat.Where(s => s.Naziv.Contains(Naziv, StringComparison.OrdinalIgnoreCase));
-            
+                rezultat = rezultat.Where(s => s.Naziv.Equals(Naziv, StringComparison.OrdinalIgnoreCase));
+
             if (Kategorija != Kategorija.None)
                 rezultat = rezultat.Where(s => s.Kategorija == Kategorija);
-
 
             if (!string.IsNullOrEmpty(Dobavljac))
                 rezultat = rezultat.Where(s => s.Dobavljac.Equals(Dobavljac, StringComparison.OrdinalIgnoreCase));

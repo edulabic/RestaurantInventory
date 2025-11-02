@@ -10,14 +10,14 @@ namespace RestaurantInventory
     {
         public String Naziv { get; set; }
         public double Cijena { get; set; }
-        public int Kolicina { get; set; }
+        public double Kolicina { get; set; }
         public string Dobavljac { get; set; }
         public DateTime DatumNabavke { get; set; }
-        public int MinKolicina { get; set; }
+        public double MinKolicina { get; set; }
         public Kategorija Kategorija { get; set; }
 
         public StavkaInventara() { }
-        public StavkaInventara(string naziv, double cijena, int kolicina, string dobavljac, DateTime datumNabavke, int minKolicina, Kategorija kategorija)
+        public StavkaInventara(string naziv, double cijena, double kolicina, string dobavljac, DateTime datumNabavke, int minKolicina, Kategorija kategorija)
         {
             Naziv = naziv;
             Cijena = cijena;
@@ -33,13 +33,13 @@ namespace RestaurantInventory
             return Kolicina < MinKolicina;
         }
 
-        // Metoda: ažurira količinu
-        public void AzurirajKolicinu(int novaKolicina)
+        // Metoda za ažuriranje količine
+        public void AzurirajKolicinu(double novaKolicina)
         {
             Kolicina = novaKolicina;
         }
 
-        // (opcionalno) metoda za ispis informacija
+        // Metoda za ispis informacija
         public void PrikaziInfo()
         {
             Console.WriteLine($"Naziv: {Naziv}, Količina: {Kolicina}, Min: {MinKolicina}, Kritična: {JeKriticna()}");

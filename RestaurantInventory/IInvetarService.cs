@@ -10,7 +10,7 @@ namespace RestaurantInventory
     {
         void DodajStavku(StavkaInventara stavka);
         void UkloniStavku(string naziv);
-        void AzurirajStavku(string naziv, int novaKolicina);
+        void AzurirajStavku(string naziv, double novaKolicina);
         List<StavkaInventara> ProvjeriMinimalneZalihe();
         List<StavkaInventara> Pretrazi(Filter filter);
         void PrikaziSveStavke();
