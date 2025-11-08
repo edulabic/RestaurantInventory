@@ -32,30 +32,69 @@ namespace RestaurantInventory
         // Glavna metoda – primjenjuje filter na listu stavki
         public List<StavkaInventara> Primijeni(List<StavkaInventara> lista)
         {
-            var rezultat = lista.AsQueryable();
+            var rezultat = new List<StavkaInventara>();
 
-            if (!string.IsNullOrEmpty(Naziv))
-                rezultat = rezultat.Where(s => s.Naziv.Equals(Naziv, StringComparison.OrdinalIgnoreCase));
+            foreach (var s in lista)
+            {
+                bool dodaj = true;
 
-            if (Kategorija != Kategorija.None)
-                rezultat = rezultat.Where(s => s.Kategorija == Kategorija);
+                // Provjera naziva
+                if (!string.IsNullOrEmpty(Naziv))
+                {
+                    if (!s.Naziv.Equals(Naziv, StringComparison.OrdinalIgnoreCase))
+                        dodaj = false;
+                }
 
-            if (!string.IsNullOrEmpty(Dobavljac))
-                rezultat = rezultat.Where(s => s.Dobavljac.Equals(Dobavljac, StringComparison.OrdinalIgnoreCase));
+                // Provjera kategorije
+                if (Kategorija != Kategorija.None)
+                {
+                    if (s.Kategorija != Kategorija)
+                        dodaj = false;
+                }
 
-            if (MinKolicina.HasValue)
-                rezultat = rezultat.Where(s => s.Kolicina >= MinKolicina.Value);
+                // Provjera dobavljača
+                if (!string.IsNullOrEmpty(Dobavljac))
+                {
+                    if (!s.Dobavljac.Equals(Dobavljac, StringComparison.OrdinalIgnoreCase))
+                        dodaj = false;
+                }
 
-            if (MaxKolicina.HasValue)
-                rezultat = rezultat.Where(s => s.Kolicina <= MaxKolicina.Value);
+                // Provjera minimalne količine
+                if (MinKolicina.HasValue)
+                {
+                    if (s.Kolicina < MinKolicina.Value)
+                        dodaj = false;
+                }
 
-            if (MinCijena.HasValue)
-                rezultat = rezultat.Where(s => s.Cijena >= MinCijena.Value);
+                // Provjera maksimalne količine
+                if (MaxKolicina.HasValue)
+                {
+                    if (s.Kolicina > MaxKolicina.Value)
+                        dodaj = false;
+                }
 
-            if (MaxCijena.HasValue)
-                rezultat = rezultat.Where(s => s.Cijena <= MaxCijena.Value);
+                // Provjera minimalne cijene
+                if (MinCijena.HasValue)
+                {
+                    if (s.Cijena < MinCijena.Value)
+                        dodaj = false;
+                }
 
-            return rezultat.ToList();
+                // Provjera maksimalne cijene
+                if (MaxCijena.HasValue)
+                {
+                    if (s.Cijena > MaxCijena.Value)
+                        dodaj = false;
+                }
+
+                // Ako je prošao sve provjere, dodaj u rezultat
+                if (dodaj)
+                {
+                    rezultat.Add(s);
+                }
+            }
+
+            return rezultat;
         }
     }
 }

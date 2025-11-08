@@ -7,19 +7,23 @@ namespace RestaurantInventory
     {
         static void Main(string[] args)
         {
-            IInventarService inventarService = new InventarService();
+            Inventar inventar = new Inventar();
 
             while (true)
             {
-                Console.WriteLine("\n===== INVENTAR RESTORANA =====");
+                Console.WriteLine();
+                Console.WriteLine("===========================================");
+                Console.WriteLine("           INVENTAR RESTORANA");
+                Console.WriteLine("===========================================");
                 Console.WriteLine("1. Dodaj stavku");
                 Console.WriteLine("2. Prikazi sve stavke");
                 Console.WriteLine("3. Provjeri minimalne zalihe");
                 Console.WriteLine("4. Pretrazi (Filter)");
                 Console.WriteLine("5. Ukloni stavku");
                 Console.WriteLine("6. Ažuriraj količinu stavke");
-                Console.WriteLine("7. Generiši izvještaj");
+                Console.WriteLine("7. Generiši izvještaj");              
                 Console.WriteLine("0. Izlaz");
+                Console.WriteLine("-------------------------------------------");
                 Console.Write("Odaberi opciju: ");
 
                 string izbor = Console.ReadLine();
@@ -28,31 +32,31 @@ namespace RestaurantInventory
                 switch (izbor)
                 {
                     case "1":
-                        DodajStavku(inventarService);
+                        DodajStavku(inventar);
                         break;
 
                     case "2":
-                        inventarService.PrikaziSveStavke();
+                        inventar.PrikaziSveStavke();
                         break;
 
                     case "3":
-                        inventarService.ProvjeriMinimalneZalihe();
+                        inventar.ProvjeriMinimalneZalihe();
                         break;
 
                     case "4":
-                        PretraziStavke(inventarService);
+                        PretraziStavke(inventar);
                         break;
 
                     case "5":
-                        UkloniStavku(inventarService);
+                        UkloniStavku(inventar);
                         break;
 
                     case "6":
-                        AzurirajStavku(inventarService);
+                        AzurirajStavku(inventar);
                         break;
 
                     case "7":
-                        GenerisiIzvjestaj(inventarService);
+                        GenerisiIzvjestaj(inventar);
                         break;
 
                     case "0":
@@ -60,14 +64,18 @@ namespace RestaurantInventory
                         return;
 
                     default:
-                        Console.WriteLine("Nepoznata opcija!");
+                        Console.WriteLine("Nepoznata opcija! Pokušaj ponovo.");
                         break;
                 }
             }
         }
 
-        static void DodajStavku(IInventarService inventarService)
+        static void DodajStavku(Inventar inventar)
         {
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("          DODAVANJE NOVE STAVKE");
+            Console.WriteLine("-------------------------------------------");
+
             Console.Write("Naziv: ");
             string naziv = Console.ReadLine();
 
@@ -82,13 +90,13 @@ namespace RestaurantInventory
 
             while (!validanUnos)
             {
-                Console.Write("Kolicina: ");
+                Console.Write("Količina: ");
                 string unosKolicina = Console.ReadLine();
 
-                Console.Write("Minimalna kolicina: ");
+                Console.Write("Minimalna količina: ");
                 string unosMinKolicina = Console.ReadLine();
 
-                if (kategorija == Kategorija.Namjestaj || kategorija==Kategorija.Posudje || kategorija==Kategorija.SredstvaZaCiscenje)
+                if (kategorija == Kategorija.Namjestaj || kategorija == Kategorija.Posudje || kategorija == Kategorija.SredstvaZaCiscenje)
                 {
                     if (int.TryParse(unosKolicina, out int kInt) && int.TryParse(unosMinKolicina, out int minInt))
                     {
@@ -116,11 +124,25 @@ namespace RestaurantInventory
                 }
             }
 
-            Console.Write("Cijena: ");
-            double cijena = double.Parse(Console.ReadLine());
 
-            Console.Write("Dobavljac: ");
+            Console.Write("Cijena (prazno = 0): ");
+            string unos = Console.ReadLine();
+
+            double cijena;
+
+            if (string.IsNullOrWhiteSpace(unos))
+            {
+                cijena = 0;
+            }
+            else
+            {
+                cijena = double.Parse(unos);
+            }
+
+
+            Console.Write("Dobavljač: ");
             string dobavljac = Console.ReadLine();
+
 
             var stavka = new StavkaInventara
             {
@@ -133,19 +155,23 @@ namespace RestaurantInventory
                 Kategorija = kategorija
             };
 
-            inventarService.DodajStavku(stavka);
+            inventar.DodajStavku(stavka);
+
+            Console.WriteLine();         
+            Console.WriteLine("-------------------------------------------");
         }
 
         static Kategorija OdaberiKategoriju()
         {
             while (true)
             {
-                Console.WriteLine("\nKategorije:");
+                Console.WriteLine();
+                Console.WriteLine("Kategorije:");
                 Console.WriteLine("1. Hrana");
-                Console.WriteLine("2. Pice");
-                Console.WriteLine("3. Posudje");
-                Console.WriteLine("4. Sredstva za ciscenje");
-                Console.WriteLine("5. Namjestaj");
+                Console.WriteLine("2. Piće");
+                Console.WriteLine("3. Posuđe");
+                Console.WriteLine("4. Sredstva za čišćenje");
+                Console.WriteLine("5. Namještaj");
                 Console.WriteLine("6. Ostalo");
                 Console.Write("Odaberi broj kategorije (1-6): ");
 
@@ -171,40 +197,52 @@ namespace RestaurantInventory
             }
         }
 
-        static void PretraziStavke(IInventarService inventarService)
+        static void PretraziStavke(Inventar inventar)
         {
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("              PRETRAGA STAVKI");
+            Console.WriteLine("-------------------------------------------");
+
             var filter = new Filter();
 
-            Console.Write("Naziv (prazno za preskociti): ");
+            Console.Write("Naziv (prazno za preskočiti): ");
             filter.Naziv = Console.ReadLine();
 
-            Console.Write("Dobavljac (prazno za preskociti): ");
+            Console.Write("Dobavljač (prazno za preskočiti): ");
             filter.Dobavljac = Console.ReadLine();
 
-            Console.Write("Minimalna cijena (prazno za preskociti): ");
+            Console.Write("Minimalna cijena (prazno za preskočiti): ");
             if (double.TryParse(Console.ReadLine(), out double minCijena))
                 filter.MinCijena = minCijena;
 
-            Console.Write("Maksimalna cijena (prazno za preskociti): ");
+            Console.Write("Maksimalna cijena (prazno za preskočiti): ");
             if (double.TryParse(Console.ReadLine(), out double maxCijena))
                 filter.MaxCijena = maxCijena;
 
-            inventarService.Pretrazi(filter);
+            inventar.Pretrazi(filter);
         }
 
-        static void UkloniStavku(IInventarService inventarService)
+        static void UkloniStavku(Inventar inventar)
         {
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("              UKLANJANJE STAVKE");
+            Console.WriteLine("-------------------------------------------");
+
             Console.Write("Unesi naziv stavke za uklanjanje: ");
             string naziv = Console.ReadLine();
-            inventarService.UkloniStavku(naziv);
+            inventar.UkloniStavku(naziv);
         }
 
-        static void AzurirajStavku(IInventarService inventarService)
+        static void AzurirajStavku(Inventar inventar)
         {
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("             AŽURIRANJE STAVKE");
+            Console.WriteLine("-------------------------------------------");
+
             Console.Write("Unesi naziv stavke za ažuriranje: ");
             string naziv = Console.ReadLine();
 
-            var stavka = inventarService.Pretrazi(new Filter(naziv: naziv)).FirstOrDefault();
+            var stavka = inventar.Pretrazi(new Filter(naziv: naziv)).FirstOrDefault();
             if (stavka == null)
             {
                 Console.WriteLine($"Stavka '{naziv}' nije pronađena.");
@@ -245,11 +283,15 @@ namespace RestaurantInventory
                 }
             }
 
-            inventarService.AzurirajStavku(naziv, novaKolicina);
-        }
+            inventar.AzurirajStavku(naziv, novaKolicina);         
+        }   
 
-        static void GenerisiIzvjestaj(IInventarService inventarService)
+        static void GenerisiIzvjestaj(Inventar inventar)
         {
+            Console.WriteLine("-------------------------------------------");
+            Console.WriteLine("          GENERISANJE IZVJEŠTAJA");
+            Console.WriteLine("-------------------------------------------");
+
             Console.Write("Naziv izvještaja: ");
             string tip = Console.ReadLine();
 
@@ -270,11 +312,9 @@ namespace RestaurantInventory
             if (Enum.TryParse<Kategorija>(kat, out Kategorija k))
                 izvjestaj.FilterKategorija = k;
 
-            // Generisanje izvještaja na osnovu svih stavki
-            var sveStavke = inventarService.Pretrazi(new Filter());
+            var sveStavke = inventar.Pretrazi(new Filter());
             izvjestaj.Generisi(sveStavke);
             izvjestaj.Prikazi();
         }
-
     }
 }
