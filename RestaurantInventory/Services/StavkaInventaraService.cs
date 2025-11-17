@@ -31,5 +31,16 @@ namespace RestaurantInventory.Services
 
             stavka.Kolicina = novaKolicina;
         }
+
+        //Dodana metoda za provjeru isteka hrane i pića - TDD
+        public static bool JePredIstekom(StavkaInventara stavka)
+        {
+            if (stavka.Kategorija != Kategorija.Hrana &&
+                stavka.Kategorija != Kategorija.Pice)
+                return false;
+
+            return (DateTime.Now - stavka.DatumNabavke).TotalDays > 25;
+        }
+
     }
 }

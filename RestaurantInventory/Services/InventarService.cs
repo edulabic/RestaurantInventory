@@ -80,5 +80,27 @@ namespace RestaurantInventory.Services
 
             return rezultat;
         }
+
+        // Dodana metoda za potrebe TDD-a
+        public List<Narudzba> GenerisiNarudzbe()
+        {
+            var lista = new List<Narudzba>();
+
+            foreach (var s in inventar.Stavke)
+            {
+                if (s.Kolicina < s.MinKolicina)
+                {
+                    lista.Add(new Narudzba
+                    {
+                        Naziv = s.Naziv,
+                        Dobavljac = s.Dobavljac,
+                        Nedostaje = s.MinKolicina - s.Kolicina
+                    });
+                }
+            }
+
+            return lista;
+        }
+
     }
 }
