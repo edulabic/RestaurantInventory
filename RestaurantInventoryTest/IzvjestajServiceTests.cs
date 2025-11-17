@@ -92,14 +92,14 @@ namespace RestaurantInventoryTest
         [TestMethod]
         public void Generisi_NullIzvjestaj_DoesNotThrow()
         {
-            IzvjestajService.Generisi(null, _data); // samo ne smije baciti exception
+            IzvjestajService.Generisi(null, _data);
         }
 
         [TestMethod]
         public void Generisi_NullList_DoesNotThrow()
         {
             var iz = new Izvjestaj("test");
-            IzvjestajService.Generisi(iz, null); // samo ne smije baciti exception
+            IzvjestajService.Generisi(iz, null);
             Assert.AreEqual(0, iz.Stavke.Count);
         }
 
@@ -115,6 +115,47 @@ namespace RestaurantInventoryTest
             IzvjestajService.Generisi(iz, lista);
 
             Assert.AreEqual(2, iz.Stavke.Count);
+        }
+
+        //Data Driven Test 1
+        [DataTestMethod]
+        [DataRow(Kategorija.Pice, 1)]
+        [DataRow(Kategorija.Namjestaj, 1)]
+        [DataRow(Kategorija.Hrana, 0)]
+        public void Generisi_Category_DataDriven(Kategorija kat, int expectedCount)
+        {
+            var iz = new Izvjestaj("test")
+            {
+                FilterKategorija = kat
+            };
+
+            IzvjestajService.Generisi(iz, _data);
+
+            Assert.AreEqual(expectedCount, iz.Stavke.Count);
+        }
+
+
+        //Data driven test
+        public static IEnumerable<object[]> PeriodTestData()
+        {
+            yield return new object[] { DateTime.Now.AddDays(-10), DateTime.Now, 1 };
+            yield return new object[] { DateTime.Now.AddDays(-100), DateTime.Now, 2 };
+            yield return new object[] { DateTime.Now.AddDays(-1), DateTime.Now, 0 };
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(PeriodTestData), DynamicDataSourceType.Method)]
+        public void Generisi_Period_DataDriven(DateTime start, DateTime end, int expected)
+        {
+            var iz = new Izvjestaj("test")
+            {
+                PocetakPerioda = start,
+                KrajPerioda = end
+            };
+
+            IzvjestajService.Generisi(iz, _data);
+
+            Assert.AreEqual(expected, iz.Stavke.Count);
         }
     }
 }

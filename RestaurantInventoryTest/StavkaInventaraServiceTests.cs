@@ -59,5 +59,50 @@ namespace RestaurantInventoryTest
 
             Assert.AreEqual(25, s.Kolicina);
         }
+
+        [TestMethod]
+        public void JeKriticna_NotCritical_ReturnsFalse()
+        {
+            var s = new StavkaInventara
+            {
+                Kolicina = 10,
+                MinKolicina = 5,
+                DatumNabavke = DateTime.Now.AddDays(-5)
+            };
+
+            var rezultat = StavkaInventaraService.JeKriticna(s);
+
+            Assert.IsFalse(rezultat);
+        }
+
+        [DataTestMethod]
+        [DataRow(1, 5, -40, true)]   
+        [DataRow(10, 5, -5, false)]  
+        [DataRow(50, 5, -100, true)] 
+        [DataRow(5, 5, -1, false)]   
+        public void JeKriticna_DataDriven(double kolicina, double min, int daysOld, bool expected)
+        {
+            var s = new StavkaInventara
+            {
+                Kolicina = kolicina,
+                MinKolicina = min,
+                DatumNabavke = DateTime.Now.AddDays(daysOld)
+            };
+
+            var rezultat = StavkaInventaraService.JeKriticna(s);
+
+            Assert.AreEqual(expected, rezultat);
+        }
+
+        [TestMethod]
+        public void AzurirajKolicinu_UsesDummyObject_NoExceptions()
+        {
+            var dummy = new StavkaInventara();
+
+            StavkaInventaraService.AzurirajKolicinu(dummy, 1);
+
+            Assert.AreEqual(1, dummy.Kolicina);
+        }
+
     }
 }

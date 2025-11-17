@@ -21,7 +21,7 @@ namespace RestaurantInventoryTest
             Assert.AreEqual(Kategorija.Hrana, stavka.Kategorija);
         }
 
-        // Data-driven test: više setova podataka
+
         [DataTestMethod]
         [DataRow("Sir", 3.5, 15)]
         [DataRow("Voda", 1.0, 50)]
