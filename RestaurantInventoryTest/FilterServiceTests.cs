@@ -132,5 +132,25 @@ namespace RestaurantInventoryTest
 
             Assert.AreEqual(expectedCount, rezultat.Count);
         }
+
+        public static IEnumerable<object[]> KolicinaTestPodaci =>
+    new List<object[]>
+    {
+        new object[] { 0, 3 },   
+        new object[] { 20, 2 },  
+        new object[] { 60, 1 },  
+        new object[] { 200, 0 }  
+    };
+
+        [DataTestMethod]
+        [DynamicData(nameof(KolicinaTestPodaci))]
+        public void Filter_MinQuantity_DataDriven(int minKolicina, int expected)
+        {
+            var filter = new Filter(minKolicina: minKolicina);
+            var rezultat = FilterService.PrimijeniFilter(_stavke, filter);
+
+            Assert.AreEqual(expected, rezultat.Count);
+        }
+
     }
 }

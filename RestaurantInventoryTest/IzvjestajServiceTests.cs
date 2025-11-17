@@ -157,5 +157,26 @@ namespace RestaurantInventoryTest
 
             Assert.AreEqual(expected, iz.Stavke.Count);
         }
+
+        [TestMethod]
+        public void Generisi_UsingStubList_ReturnsCorrectCount()
+        {
+            var stubList = new List<StavkaInventara>
+    {
+        new StavkaInventara { Naziv="A", DatumNabavke=DateTime.Now.AddDays(-2) },
+        new StavkaInventara { Naziv="B", DatumNabavke=DateTime.Now.AddDays(-100) }
+    };
+
+            var iz = new Izvjestaj("test")
+            {
+                PocetakPerioda = DateTime.Now.AddDays(-10),
+                KrajPerioda = DateTime.Now
+            };
+
+            IzvjestajService.Generisi(iz, stubList);
+
+            Assert.AreEqual(1, iz.Stavke.Count);
+        }
+
     }
 }

@@ -104,5 +104,18 @@ namespace RestaurantInventoryTest
             Assert.AreEqual(1, dummy.Kolicina);
         }
 
+        [DataTestMethod]
+        [DataRow(10, 5, 5)]     
+        [DataRow(10, 20, 20)]   
+        [DataRow(0, 0, 0)]      
+        public void AzurirajKolicinu_DataDriven(double pocetna, double nova, double expected)
+        {
+            var s = new StavkaInventara { Kolicina = pocetna };
+
+            StavkaInventaraService.AzurirajKolicinu(s, nova);
+
+            Assert.AreEqual(expected, s.Kolicina);
+        }
+
     }
 }

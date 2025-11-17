@@ -128,5 +128,20 @@ namespace RestaurantInventoryTest
             yield return new object[] { new Filter(naziv: "NePostoji"), 0 };
             yield return new object[] { new Filter(kategorija: Kategorija.Hrana, minCijena: 3), 1 };
         }
+
+        [TestMethod]
+        public void UkloniStavku_UsingDummyObject_Works()
+        {
+            var dummy = new StavkaInventara
+            {
+                Naziv = "Dummy"
+            };
+
+            service.DodajStavku(dummy);
+            service.UkloniStavku("Dummy");
+
+            Assert.AreEqual(0, inventar.Stavke.Count);
+        }
+
     }
 }
