@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 namespace RestaurantInventory
 {
+    using System.Diagnostics.CodeAnalysis;
+
+    [ExcludeFromCodeCoverage]
     internal class Program
     {
         static void Main(string[] args)
