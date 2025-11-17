@@ -143,5 +143,26 @@ namespace RestaurantInventoryTest
             Assert.AreEqual(0, inventar.Stavke.Count);
         }
 
+        [DataTestMethod]
+        [DynamicData(nameof(GetXmlTestData), DynamicDataSourceType.Method)]
+        public void Pretrazi_IzXmlFajla_FiltriraKorektno(Filter filter, int expectedCount)
+        {
+            var stavka1 = new StavkaInventara("Mlijeko", 2.5, 10, "DobavljacA", DateTime.Today, 5, Kategorija.Hrana);
+            var stavka2 = new StavkaInventara("Sir", 3.5, 5, "DobavljacB", DateTime.Today, 2, Kategorija.Hrana);
+            var stavka3 = new StavkaInventara("Voda", 1.0, 20, "DobavljacC", DateTime.Today, 5, Kategorija.Pice);
+
+            service.DodajStavku(stavka1);
+            service.DodajStavku(stavka2);
+            service.DodajStavku(stavka3);
+
+            var result = service.Pretrazi(filter);
+
+            Assert.AreEqual(expectedCount, result.Count);
+        }
+
+        public static IEnumerable<object[]> GetXmlTestData()
+        {
+            return XmlTestDataReader.GetPretragaTestData();
+        }
     }
 }
