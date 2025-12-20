@@ -2,12 +2,12 @@
 {
     public enum Kategorija
     {
-        Namjestaj,
-        Hrana,
-        Pice,
-        Posudje,
-        SredstvaZaCiscenje,
-        Ostalo,
-        None = 0
+        None = 0,
+        Namjestaj = 1,
+        Hrana = 2,
+        Pice = 3,
+        Posudje = 4,
+        SredstvaZaCiscenje = 5,
+        Ostalo = 6
     }
 }
