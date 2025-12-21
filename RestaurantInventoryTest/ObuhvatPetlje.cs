@@ -17,7 +17,7 @@ public class ObuhvatPetlje
 
         inventar.Stavke.Add(new StavkaInventara
         {
-            Naziv = "Brasno",S
+            Naziv = "Brasno",
             Kategorija = Kategorija.Hrana,
             Dobavljac = "DobavljacA",
             Kolicina = 20,

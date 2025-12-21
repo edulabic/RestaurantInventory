@@ -5,7 +5,7 @@ namespace RestaurantInventory.Services
 {
     public static class FilterService
     {
-        public static List<StavkaInventara> PrimijeniFilter(List<StavkaInventara> stavke, Filter filter)
+       /* public static List<StavkaInventara> PrimijeniFilter(List<StavkaInventara> stavke, Filter filter)
         {
             if (filter == null) return stavke;
             var rezultat = new List<StavkaInventara>();
@@ -40,6 +40,49 @@ namespace RestaurantInventory.Services
             }
 
             return rezultat;
+        }*/
+
+
+        public static List<StavkaInventara> PrimijeniFilter(List<StavkaInventara> stavke, Filter filter)
+        {
+            if (filter == null) return stavke;
+            var rezultat = new List<StavkaInventara>();
+            bool checkNaziv = !string.IsNullOrEmpty(filter.Naziv);
+            string nazivFilter = filter.Naziv;
+            bool checkDobavljac = !string.IsNullOrEmpty(filter.Dobavljac);
+            string dobavljacFilter = filter.Dobavljac;
+            bool checkMinKolicina = filter.MinKolicina.HasValue;
+            double minKolicina = filter.MinKolicina.GetValueOrDefault();
+            bool checkMaxKolicina = filter.MaxKolicina.HasValue;
+            double maxKolicina = filter.MaxKolicina.GetValueOrDefault();
+            bool checkMinCijena = filter.MinCijena.HasValue;
+            double minCijena = filter.MinCijena.GetValueOrDefault();
+            bool checkMaxCijena = filter.MaxCijena.HasValue;
+            double maxCijena = filter.MaxCijena.GetValueOrDefault();
+            bool checkKategorija = filter.Kategorija != Kategorija.None;
+            Kategorija kategorijaFilter = filter.Kategorija;
+            foreach (var s in stavke)
+            {
+                if (checkNaziv && !s.Naziv.Equals(nazivFilter, StringComparison.OrdinalIgnoreCase))
+                    continue;
+                if (checkKategorija && s.Kategorija != kategorijaFilter)
+                    continue;
+                if (checkDobavljac && !s.Dobavljac.Equals(dobavljacFilter, StringComparison.OrdinalIgnoreCase))
+                    continue;
+                if (checkMinKolicina && s.Kolicina < minKolicina)
+                    continue;
+                if (checkMaxKolicina && s.Kolicina > maxKolicina)
+                    continue;
+                if (checkMinCijena && s.Cijena < minCijena)
+                    continue;
+                if (checkMaxCijena && s.Cijena > maxCijena)
+                    continue;
+                rezultat.Add(s);
+            }
+
+            return rezultat;
         }
+
+
     }
 }
