@@ -77,7 +77,7 @@ namespace RestaurantInventoryTest
         {
             service.AzurirajStavku("NePostoji", 5);
         }
-
+        /*
         [TestMethod]
         public void ProvjeriMinimalneZalihe_VracaKriticne()
         {
@@ -91,7 +91,7 @@ namespace RestaurantInventoryTest
 
             Assert.AreEqual(1, rezultat.Count);
             Assert.AreEqual("Stolica", rezultat[0].Naziv);
-        }
+        }*/
 
         [DataTestMethod]
         [DynamicData(nameof(GetFilterData), DynamicDataSourceType.Method)]

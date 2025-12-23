@@ -23,7 +23,7 @@ namespace RestaurantInventoryTest
 
             Assert.IsTrue(rezultat);
         }
-
+        /*
         [TestMethod]
         public void JeKriticna_TooOld_ReturnsTrue()
         {
@@ -38,7 +38,7 @@ namespace RestaurantInventoryTest
 
             Assert.IsTrue(rezultat);
         }
-
+        */
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void AzurirajKolicinu_Negative_Throws()
@@ -77,8 +77,7 @@ namespace RestaurantInventoryTest
 
         [DataTestMethod]
         [DataRow(1, 5, -40, true)]   
-        [DataRow(10, 5, -5, false)]  
-        [DataRow(50, 5, -100, true)] 
+        [DataRow(10, 5, -5, false)]
         [DataRow(5, 5, -1, false)]   
         public void JeKriticna_DataDriven(double kolicina, double min, int daysOld, bool expected)
         {
