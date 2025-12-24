@@ -5,70 +5,55 @@ namespace RestaurantInventory.Services
 {
     public static class StavkaInventaraService
     {
-        /*   public static bool JeKriticna(StavkaInventara stavka)
-           {
+     /*   public static bool JeKriticna(StavkaInventara stavka)
+        {
+            int rizik = 0;
 
+            if (stavka.Kolicina < stavka.MinKolicina)
+            {
+                rizik += 3;
 
-               int rizik = 0;
+                if (stavka.Kolicina == 0)
+                    rizik += 2;
+                else if (stavka.Kolicina < stavka.MinKolicina / 2)
+                    rizik += 1;
+            }
+            else
+            {
+                rizik -= 1;
+            }
 
-               if (stavka.Kolicina < stavka.MinKolicina)
-               {
-                   rizik += 3;
+            DateTime trenutno = DateTime.Now;
+            double dani = (trenutno - stavka.DatumNabavke).TotalDays;
 
-                   if (stavka.Kolicina == 0)
-                       rizik += 2;
-                   else if (stavka.Kolicina < stavka.MinKolicina / 2)
-                       rizik += 1;
-               }
-               else
-               {
-                   rizik -= 1;
-               }
+            
+            if (dani > 60)
+                rizik += 3;
+            else if (dani > 30)
+                rizik += 2;
 
-               double dani = (DateTime.Now - stavka.DatumNabavke).TotalDays;
+            switch (stavka.Kategorija)
+            {
+                case Kategorija.Hrana:
+                    rizik += 2;
+                    break;
+                case Kategorija.Pice:
+                    rizik += 1;
+                    break;
+            }
 
+            if ((stavka.Kategorija == Kategorija.Hrana ||
+                 stavka.Kategorija == Kategorija.Pice) &&
+                 stavka.Kolicina < stavka.MinKolicina &&
+                 dani > 25)
+            {
+                rizik += 2;
+            }
 
+             return rizik >= 5;
 
-               if (dani > 30)
-                   rizik += 2;
-               else if (dani > 60)
-                   rizik += 3;
-
-
-
-               switch (stavka.Kategorija)
-               {
-                   case Kategorija.Hrana:
-                       rizik += 2;
-                       break;
-
-                   case Kategorija.Pice:
-                       rizik += 1;
-                       break;
-
-                   default:
-                       rizik += 0;
-                       break;
-               }
-
-               bool jeHranaIliPice = stavka.Kategorija == Kategorija.Hrana
-                      || stavka.Kategorija == Kategorija.Pice;
-
-               bool ispodMinimuma = stavka.Kolicina < stavka.MinKolicina;
-               bool starijaOd25 = dani > 25;
-
-               if (jeHranaIliPice && ispodMinimuma && starijaOd25)
-               {
-                   rizik += 2;
-               }
-
-
-               if (rizik >= 5)
-                   return true;
-
-               return false;
-           }
-        */
+        }
+     */
 
         public static bool JeKriticna(StavkaInventara stavka)
         {
