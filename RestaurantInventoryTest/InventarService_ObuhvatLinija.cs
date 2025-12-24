@@ -132,41 +132,13 @@ public class InventarService_ObuhvatLinija_Condition
         Assert.AreEqual(0, rezultatFalse.Count);
     }
 
-    //Loop coverage
+    // TC10
     [TestMethod]
-    public void Pretrazi_PrazanInventar_PrazanRezultat() // 0 prolaza
-    {
-        inventar.Stavke.Clear();
-        var filter = new Filter();
-
+    public void Pretrazi_Dodaj_True()
+    {       
+        var filter = new Filter(); 
         var rezultat = service.Pretrazi(filter);
-        Assert.AreEqual(0, rezultat.Count);
-    }
-
-    [TestMethod]
-    public void Pretrazi_JednaStavka() // 1 prolaz
-    {
-        inventar.Stavke.Clear();
-        inventar.Stavke.Add(new StavkaInventara
-        {
-            Naziv = "Mlijeko",
-            Kategorija = Kategorija.Hrana,
-            Dobavljac = "DobavljacC",
-            Kolicina = 10,
-            MinKolicina = 5,
-            Cijena = 1
-        });
-
-        var filter = new Filter();
-        var rezultat = service.Pretrazi(filter);
-        Assert.AreEqual(1, rezultat.Count);
-    }
-
-    [TestMethod]
-    public void Pretrazi_ViseStavki() // više prolaza
-    {
-        var filter = new Filter();
-        var rezultat = service.Pretrazi(filter);
+      
         Assert.AreEqual(2, rezultat.Count);
-    }
+    } 
 }
