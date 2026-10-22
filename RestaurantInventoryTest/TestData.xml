@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TestData>
+	<PretragaTests>
+		<!-- Test 1: Pretraga po nazivu -->
+		<Test>
+			<Naziv>Mlijeko</Naziv>
+			<Kategorija>None</Kategorija>
+			<Dobavljac></Dobavljac>
+			<MinCijena></MinCijena>
+			<MaxCijena></MaxCijena>
+			<MinKolicina></MinKolicina>
+			<MaxKolicina></MaxKolicina>
+			<ExpectedCount>1</ExpectedCount>
+			<Description>Traži stavku sa nazivom Mlijeko - treba vratiti 1 stavku</Description>
+		</Test>
+
+		<!-- Test 2: Pretraga po kategoriji Pice -->
+		<Test>
+			<Naziv></Naziv>
+			<Kategorija>Pice</Kategorija>
+			<Dobavljac></Dobavljac>
+			<MinCijena></MinCijena>
+			<MaxCijena></MaxCijena>
+			<MinKolicina></MinKolicina>
+			<MaxKolicina></MaxKolicina>
+			<ExpectedCount>1</ExpectedCount>
+			<Description>Sva pića - samo Voda</Description>
+		</Test>
+
+		<!-- Test 3: Pretraga po kategoriji Hrana sa minimalnom cijenom -->
+		<Test>
+			<Naziv></Naziv>
+			<Kategorija>Hrana</Kategorija>
+			<Dobavljac></Dobavljac>
+			<MinCijena>3</MinCijena>
+			<MaxCijena></MaxCijena>
+			<MinKolicina></MinKolicina>
+			<MaxKolicina></MaxKolicina>
+			<ExpectedCount>1</ExpectedCount>
+			<Description>Hrana koja košta 3 ili više - samo Sir (3.5)</Description>
+		</Test>
+
+		<!-- Test 4: Pretraga po cjenovnom rangu -->
+		<Test>
+			<Naziv></Naziv>
+			<Kategorija>None</Kategorija>
+			<Dobavljac></Dobavljac>
+			<MinCijena>2</MinCijena>
+			<MaxCijena>3</MaxCijena>
+			<MinKolicina></MinKolicina>
+			<MaxKolicina></MaxKolicina>
+			<ExpectedCount>1</ExpectedCount>
+			<Description>Stavke između 2-3 KM - samo Mlijeko (2.5)</Description>
+		</Test>
+
+		<!-- Test 5: Pretraga po dobavljaču -->
+		<Test>
+			<Naziv></Naziv>
+			<Kategorija>None</Kategorija>
+			<Dobavljac>DobavljacB</Dobavljac>
+			<MinCijena></MinCijena>
+			<MaxCijena></MaxCijena>
+			<MinKolicina></MinKolicina>
+			<MaxKolicina></MaxKolicina>
+			<ExpectedCount>1</ExpectedCount>
+			<Description>Sve što dolazi od DobavljacB - samo Sir</Description>
+		</Test>
+
+		<!-- Test 6: Pretraga po količini -->
+		<Test>
+			<Naziv></Naziv>
+			<Kategorija>None</Kategorija>
+			<Dobavljac></Dobavljac>
+			<MinCijena></MinCijena>
+			<MaxCijena></MaxCijena>
+			<MinKolicina>5</MinKolicina>
+			<MaxKolicina>15</MaxKolicina>
+			<ExpectedCount>2</ExpectedCount>
+			<Description>Stavke sa količinom 5-15 - Mlijeko (10) i Sir (5)</Description>
+		</Test>
+
+		<!-- Test 7: Kombinovana pretraga (kategorija + min cijena) -->
+		<Test>
+			<Naziv></Naziv>
+			<Kategorija>Hrana</Kategorija>
+			<Dobavljac></Dobavljac>
+			<MinCijena>3</MinCijena>
+			<MaxCijena></MaxCijena>
+			<MinKolicina></MinKolicina>
+			<MaxKolicina></MaxKolicina>
+			<ExpectedCount>1</ExpectedCount>
+			<Description>Hrana skuplja od 3 KM - samo Sir</Description>
+		</Test>
+
+		<!-- Test 8: Pretraga koja ne vraća ništa -->
+		<Test>
+			<Naziv>NePostoji</Naziv>
+			<Kategorija>None</Kategorija>
+			<Dobavljac></Dobavljac>
+			<MinCijena></MinCijena>
+			<MaxCijena></MaxCijena>
+			<MinKolicina></MinKolicina>
+			<MaxKolicina></MaxKolicina>
+			<ExpectedCount>0</ExpectedCount>
+			<Description>Nepostojeća stavka - 0 rezultata</Description>
+		</Test>
+
+		<!-- Test 9: Sve stavke (prazan filter) -->
+		<Test>
+			<Naziv></Naziv>
+			<Kategorija>None</Kategorija>
+			<Dobavljac></Dobavljac>
+			<MinCijena></MinCijena>
+			<MaxCijena></MaxCijena>
+			<MinKolicina></MinKolicina>
+			<MaxKolicina></MaxKolicina>
+			<ExpectedCount>3</ExpectedCount>
+			<Description>Prazan filter vraća sve stavke</Description>
+		</Test>
+
+		
+		<!-- Test 10: Velika količina -->
+		<Test>
+			<Naziv></Naziv>
+			<Kategorija>None</Kategorija>
+			<Dobavljac></Dobavljac>
+			<MinCijena></MinCijena>
+			<MaxCijena></MaxCijena>
+			<MinKolicina>15</MinKolicina>
+			<MaxKolicina></MaxKolicina>
+			<ExpectedCount>1</ExpectedCount>
+			<Description>Stavke sa 15+ komada - samo Voda (20)</Description>
+		</Test>
+
+		<!-- Test 12: Kombinacija 3 filtera -->
+		<Test>
+			<Naziv></Naziv>
+			<Kategorija>Hrana</Kategorija>
+			<Dobavljac></Dobavljac>
+			<MinCijena>2</MinCijena>
+			<MaxCijena></MaxCijena>
+			<MinKolicina></MinKolicina>
+			<MaxKolicina>10</MaxKolicina>
+			<ExpectedCount>2</ExpectedCount>
+			<Description>Hrana skuplja od 2 KM sa max 10 komada - Mlijeko i Sir</Description>
+		</Test>
+	</PretragaTests>
+
+	<!-- Dodatna sekcija za testiranje GenerisiNarudzbe metode -->
+	<NarudzbeTests>
+		<Test>
+			<Naziv>TestStavka1</Naziv>
+			<Cijena>5.0</Cijena>
+			<Kolicina>3</Kolicina>
+			<MinKolicina>10</MinKolicina>
+			<ExpectedNedostaje>7</ExpectedNedostaje>
+			<Description>Stavka ispod minimuma - treba naručiti 7 komada</Description>
+		</Test>
+		<Test>
+			<Naziv>TestStavka2</Naziv>
+			<Cijena>2.0</Cijena>
+			<Kolicina>15</Kolicina>
+			<MinKolicina>10</MinKolicina>
+			<ExpectedNedostaje>0</ExpectedNedostaje>
+			<Description>Stavka iznad minimuma - ne treba naručivati</Description>
+		</Test>
+	</NarudzbeTests>
+</TestData>

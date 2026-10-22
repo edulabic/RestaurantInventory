@@ -5,24 +5,115 @@ namespace RestaurantInventory.Services
 {
     public static class StavkaInventaraService
     {
-        public static bool JeKriticna(StavkaInventara stavka)
+     /*   public static bool JeKriticna(StavkaInventara stavka)
         {
+            int rizik = 0;
+
             if (stavka.Kolicina < stavka.MinKolicina)
             {
-                if (stavka.DatumNabavke < DateTime.Now.AddDays(-30))
-                    return true;
+                rizik += 3;
 
-                if (stavka.Kategorija == Kategorija.Hrana || stavka.Kategorija == Kategorija.Pice)
-                    return true;
-
-                return true;
+                if (stavka.Kolicina == 0)
+                    rizik += 2;
+                else if (stavka.Kolicina < stavka.MinKolicina / 2)
+                    rizik += 1;
+            }
+            else
+            {
+                rizik -= 1;
             }
 
-            if ((DateTime.Now - stavka.DatumNabavke).TotalDays > 60)
-                return true;
+            DateTime trenutno = DateTime.Now;
+            double dani = (trenutno - stavka.DatumNabavke).TotalDays;
 
-            return false;
+            
+            if (dani > 60)
+                rizik += 3;
+            else if (dani > 30)
+                rizik += 2;
+
+            switch (stavka.Kategorija)
+            {
+                case Kategorija.Hrana:
+                    rizik += 2;
+                    break;
+                case Kategorija.Pice:
+                    rizik += 1;
+                    break;
+            }
+
+            if ((stavka.Kategorija == Kategorija.Hrana ||
+                 stavka.Kategorija == Kategorija.Pice) &&
+                 stavka.Kolicina < stavka.MinKolicina &&
+                 dani > 25)
+            {
+                rizik += 2;
+            }
+
+             return rizik >= 5;
+
         }
+     */
+
+        public static bool JeKriticna(StavkaInventara stavka)
+        {
+            int rizik = 0;
+
+            rizik += IzracunajRizikKolicine(stavka);
+
+            double dani = (DateTime.Now - stavka.DatumNabavke).TotalDays;
+
+            rizik += IzracunajRizikStarosti(dani);
+            rizik += IzracunajRizikKategorije(stavka.Kategorija);
+
+            if (JePosebnoRizicna(stavka, dani))
+                rizik += 2;
+
+            return rizik >= 5;
+        }
+        private static int IzracunajRizikKolicine(StavkaInventara stavka)
+        {
+            if (stavka.Kolicina >= stavka.MinKolicina)
+                return -1;
+
+            if (stavka.Kolicina == 0)
+                return 5;
+
+            if (stavka.Kolicina < stavka.MinKolicina / 2)
+                return 4;
+
+            return 3;
+        }
+        private static int IzracunajRizikStarosti(double dani)
+        {
+            if (dani > 60)
+                return 5;
+
+            if (dani > 30)
+                return 2;
+
+            return 0;
+        }
+        private static int IzracunajRizikKategorije(Kategorija kategorija)
+        {
+            return kategorija switch
+            {
+                Kategorija.Hrana => 2,
+                Kategorija.Pice => 1,
+                _ => 0
+            };
+        }
+
+
+        private static bool JePosebnoRizicna(StavkaInventara stavka, double dani)
+        {
+            return (stavka.Kategorija == Kategorija.Hrana ||
+                    stavka.Kategorija == Kategorija.Pice)
+                    && stavka.Kolicina < stavka.MinKolicina
+                    && dani > 25;
+        }
+
+
 
         public static void AzurirajKolicinu(StavkaInventara stavka, double novaKolicina)
         {
@@ -31,5 +122,16 @@ namespace RestaurantInventory.Services
 
             stavka.Kolicina = novaKolicina;
         }
+
+        //Dodana metoda za provjeru isteka hrane i pića - TDD
+        public static bool JePredIstekom(StavkaInventara stavka)
+        {
+            if (stavka.Kategorija != Kategorija.Hrana &&
+                stavka.Kategorija != Kategorija.Pice)
+                return false;
+
+            return (DateTime.Now - stavka.DatumNabavke).TotalDays > 25;
+        }
+
     }
 }
